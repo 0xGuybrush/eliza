@@ -41,7 +41,7 @@ COPY . .
 RUN pnpm install --no-frozen-lockfile
 
 # Build the project
-RUN pnpm run build && pnpm prune --prod
+RUN pnpm run build-docker && pnpm prune --prod
 
 # Final runtime image
 FROM node:23.3.0-slim
@@ -69,7 +69,6 @@ COPY --from=builder /app/agent ./agent
 COPY --from=builder /app/client ./client
 COPY --from=builder /app/lerna.json ./
 COPY --from=builder /app/packages ./packages
-COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/characters ./characters
 
 # Expose necessary ports
